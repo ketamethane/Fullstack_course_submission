@@ -3,15 +3,17 @@ import { useState } from 'react'
 const StatisticLine = (props) => {
   if (props.text=="Percentage of positive feedback") {
     return (
-      <div>
-      {props.text}: {props.value} %
-    </div>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value} %</td>
+      </tr>
     )
   }
   return (
-    <div>
-      {props.text}: {props.value}
-    </div>
+    <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>
   )
 }
 
@@ -27,14 +29,16 @@ const Statistics = (props) => {
   const average = (props.good * 1 + props.neutral * 0 + props.bad * -1)/total
   const percentagePositive = props.good/(props.good + props.neutral + props.bad) * 100
   return (
-    <div>
+    <table>
+      <tbody>
       <StatisticLine text="Good" value={props.good}></StatisticLine>
       <StatisticLine text="Neutral" value={props.neutral}></StatisticLine>
       <StatisticLine text="Bad" value={props.bad}></StatisticLine>
       <StatisticLine text="Total number of feedback" value={total}></StatisticLine>
       <StatisticLine text="Average" value={average}></StatisticLine>
       <StatisticLine text="Percentage of positive feedback" value={percentagePositive}></StatisticLine>
-    </div>
+      </tbody>
+    </table>
   )
 }
 
