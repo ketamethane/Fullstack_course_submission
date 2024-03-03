@@ -1,5 +1,20 @@
 import { useState } from 'react'
 
+const StatisticLine = (props) => {
+  if (props.text=="Percentage of positive feedback") {
+    return (
+      <div>
+      {props.text}: {props.value} %
+    </div>
+    )
+  }
+  return (
+    <div>
+      {props.text}: {props.value}
+    </div>
+  )
+}
+
 const Statistics = (props) => {
   if (props.good==0 && props.neutral==0 && props.bad==0) {
     return (
@@ -13,16 +28,23 @@ const Statistics = (props) => {
   const percentagePositive = props.good/(props.good + props.neutral + props.bad) * 100
   return (
     <div>
-      <div>Good {props.good}</div>
-      <div>Neutral {props.neutral}</div>
-      <div>Bad {props.bad}</div>
-      <div>Total number of feedback: {total}</div>
-      <div>Average: {average}</div>
-      <div>Percentage of positive feedback: {percentagePositive} %</div>
+      <StatisticLine text="Good" value={props.good}></StatisticLine>
+      <StatisticLine text="Neutral" value={props.neutral}></StatisticLine>
+      <StatisticLine text="Bad" value={props.bad}></StatisticLine>
+      <StatisticLine text="Total number of feedback" value={total}></StatisticLine>
+      <StatisticLine text="Average" value={average}></StatisticLine>
+      <StatisticLine text="Percentage of positive feedback" value={percentagePositive}></StatisticLine>
     </div>
   )
 }
 
+const Button = (props) => {
+  return (
+    <button onClick={props.onClick}>
+      {props.text}
+    </button>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
@@ -33,9 +55,9 @@ const App = () => {
   return (
     <div>
       <h1>Give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>Good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>Neutral</button>
-      <button onClick={() => setBad(bad + 1)}>Bad</button>
+      <Button onClick={() => setGood(good + 1)} text="Good"></Button>
+      <Button onClick={() => setNeutral(neutral + 1)} text="Neutral"></Button>
+      <Button onClick={() => setBad(bad + 1)} text="Bad"></Button>
       <h2>
         Statistics
       </h2>
