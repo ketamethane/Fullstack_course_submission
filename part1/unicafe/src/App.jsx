@@ -1,15 +1,15 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
-  // if (props.good==0 && props.neutral==0 && props.bad==0) {
-  //   return (
-  //     <div>
-  //       No feedback given
-  //     </div>
-  //   )
-  // }
+  if (props.good==0 && props.neutral==0 && props.bad==0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
   const total = props.good + props.neutral + props.bad
-  const average = (props.good + props.neutral + props.bad)/3
+  const average = (props.good * 1 + props.neutral * 0 + props.bad * -1)/total
   const percentagePositive = props.good/(props.good + props.neutral + props.bad) * 100
   return (
     <div>
