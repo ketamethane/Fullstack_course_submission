@@ -4,16 +4,7 @@ const GetRandomInt = (max) => {
   return Math.floor(Math.random() * max)
 }
 
-// const Button = (props) => {
-//   const number = GetRandomInt(props.max)
-//   return (
-//     <div>
-//       <button onClick={() => setSelected(number)}>
-//         next anecdote
-//       </button>
-//     </div>
-//   )
-// }
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random 
 
 const App = () => {
   const anecdotes = [
@@ -44,12 +35,16 @@ const App = () => {
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected]} votes</div>
       <div>
         <button onClick={() => Vote(selected)}>vote</button>
       <button onClick={() => setSelected(GetRandomInt(anecdotes.length))}>next anecdote</button>
       </div>
+      <h2>Anecdote with most votes</h2>
+      <div>{anecdotes[votes.indexOf(Math.max(...votes))]}</div>
+      <div>has {votes[votes.indexOf(Math.max(...votes))]} votes</div>
     </div>
   )
 }
