@@ -26,6 +26,15 @@ const App = () => {
       name: newName
     }
 
+    const isPersonAlreadyAdded = persons.some(person => person.name === newPerson.name)
+
+    if (isPersonAlreadyAdded) {
+      console.log(`${newPerson.name} is already added to phonebook`)
+      alert(`${newPerson.name} is already added to phonebook`)
+      return
+    }
+
+    console.log('added new person')
     setPersons(persons.concat(newPerson))
     setNewName('')
   }
