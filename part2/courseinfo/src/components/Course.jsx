@@ -1,6 +1,11 @@
 const Header = ({ name }) => <h1>{name}</h1>
 
-// const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+const Total = ({ numEx }) => {
+console.log('numEx', numEx)
+return (
+<b>total of {numEx.reduce((sum, num) => sum + num, 0)} exercises</b>
+)
+}
 
 const Part = ({ part }) => 
   <p>
@@ -31,13 +36,11 @@ const Course = ({course}) => {
     return (
         <div>
       <Header name={name} />
-      
       <Content parts={parts} />
-      
+      {<Total numEx={parts.map(part => part.exercises)} />}
     </div>
     )
 }
 
-// {<Total sum={parts[0].exercises + parts[1].exercises + parts[2].exercises} />}
 
 export default Course
