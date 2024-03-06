@@ -1,5 +1,7 @@
 import Course from "./components/Course"
 
+// ignore steps 8 and 10 as I have already completed them in advance
+
 const App = () => {
   const courses = [
     {
