@@ -1,18 +1,9 @@
 import { useState } from 'react'
+import Filter from './Components/Filter'
+import PersonForm from './Components/PersonForm'
+import Persons from './Components/Persons'
 
-const Person = ({person, filter}) => {
-  if (filter==='') {
-    return (
-      <p>{person.name} {person.number}</p>
-    )
-  }
-  if (person.name.toLowerCase().includes(filter)) {
-    return (
-      <p>{person.name} {person.number}</p>
-    )
-  }
-  
-}
+
 
 // does not verify if number field contains numbers only
 
@@ -36,7 +27,7 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNum,
-      id: persons.length
+      id: persons.length + 1
     }
 
     const isPersonAlreadyAdded = persons.some(person => person.name === newPerson.name)
@@ -87,33 +78,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input value={filter}
-        onChange={handleFilterChange}>
-        </input>
-      </div>
+      <Filter value={filter} onChange={handleFilterChange}/>
       <h2>
         add a new
       </h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName}
-          onChange={handlePersonChange}
-          />
-        </div>
-        <div>
-        number: <input value={newNum}
-          onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      
+      <PersonForm onSubmit={addPerson} name={newName} nameHandle={handlePersonChange}
+      num={newNum} numHandle={handleNumberChange}/>
       <h2>Numbers</h2>
-      {persons.map(person =>
-        <Person key={person.id} person={person} filter={filter}/>
-        )}
+      <Persons persons={persons} filter={filter}/>
     </div>
   )
 }
