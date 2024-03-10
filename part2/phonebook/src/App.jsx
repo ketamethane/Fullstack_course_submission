@@ -40,16 +40,17 @@ const App = () => {
 
     if (isPersonAlreadyAdded) {
       if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        
+        // make a shallow copy of the person to update with that person's id, then update accordingly
         const addedPerson = persons.find(person => person.name === newPerson.name)
         const changedPerson = { ...addedPerson, number: newNum}
         console.log('changed person:', changedPerson)
-        noteService.update(changedPerson)
+        noteService.update(changedPerson.id, changedPerson)
         .then(response => {
           console.log('added person:',response)
           setPersons(persons.map(p => p.id !== changedPerson.id ? p : response))
           setNewName('')
           setNewNum('')
-        
         }
         )
         return
@@ -84,19 +85,16 @@ const App = () => {
         setNewName('')
         setNewNum('')
       })
-
-    
-    // setPersons(persons.concat(newPerson))
-    // setNewName('')
-    // setNewNum('')
   }
 
-  const deletePerson = (id) => {
-    noteService.deletePerson(id)
+  const deletePerson = (person) => {
+    if (window.confirm(`Delete ${person.name} ?`)) {
+    noteService.deletePerson(person.id)
       .then(response => {
         console.log(response, 'delete')
-        setPersons(persons.filter(person => person.id !== id))
+        setPersons(persons.filter(p => p.id !== person.id))
       })
+    }
   }
 
   

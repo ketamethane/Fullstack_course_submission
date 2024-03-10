@@ -17,7 +17,7 @@ const Persons = ({persons, filter, deleteHandler}) => {
     return (
         <div>
     {persons.map(person =>
-        <Person key={person.id} person={person} filter={filter} deleteHandler={() => deleteHandler(person.id)}/>
+        <Person key={person.id} person={person} filter={filter} deleteHandler={() => deleteHandler(person)}/>
         )}
         </div>
     )
