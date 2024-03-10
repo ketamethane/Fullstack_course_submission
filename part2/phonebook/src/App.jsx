@@ -23,7 +23,7 @@ const App = () => {
       })
   }, [])
 
-  console.log('render', persons.length, 'persons')
+  // console.log('render', persons.length, 'persons')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -75,6 +75,14 @@ const App = () => {
     // setNewNum('')
   }
 
+  const deletePerson = (id) => {
+    noteService.deletePerson(id)
+      .then(response => {
+        console.log(response, 'delete')
+        setPersons(persons.filter(person => person.id !== id))
+      })
+  }
+
   
   const handlePersonChange = (event) => {
     console.log(event.target.value)
@@ -101,7 +109,7 @@ const App = () => {
       <PersonForm onSubmit={addPerson} name={newName} nameHandle={handlePersonChange}
       num={newNum} numHandle={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} deleteHandler={deletePerson}/>
     </div>
   )
 }
