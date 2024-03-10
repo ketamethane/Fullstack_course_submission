@@ -27,21 +27,37 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-
     console.log('Add Person', event.target)
-    // may need to add id to each person in the future
+
     const newPerson = {
       name: newName,
       number: newNum,
-      id: persons.length + 1
+      id: (persons.length + 1).toString()
     }
+    console.log('new person id after', newPerson.id)
 
     const isPersonAlreadyAdded = persons.some(person => person.name === newPerson.name)
 
     if (isPersonAlreadyAdded) {
-      console.log(`${newPerson.name} is already added to phonebook`)
-      alert(`${newPerson.name} is already added to phonebook`)
-      return
+      if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const addedPerson = persons.find(person => person.name === newPerson.name)
+        const changedPerson = { ...addedPerson, number: newNum}
+        console.log('changed person:', changedPerson)
+        noteService.update(changedPerson)
+        .then(response => {
+          console.log('added person:',response)
+          setPersons(persons.map(p => p.id !== changedPerson.id ? p : response))
+          setNewName('')
+          setNewNum('')
+        
+        }
+        )
+        return
+
+      }
+      // console.log(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)
+      // alert(`${newPerson.name} is already added to phonebook`)
+      // return
     }
 
     if (newNum === '') {
