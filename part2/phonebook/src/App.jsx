@@ -59,14 +59,23 @@ const App = () => {
       return
     }
 
+    // const newPersons = persons.concat(newPerson)
 
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        console.log('added new person')
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNum('')
+      })
 
-
-    console.log('added new person')
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNum('')
+    
+    // setPersons(persons.concat(newPerson))
+    // setNewName('')
+    // setNewNum('')
   }
+
   
   const handlePersonChange = (event) => {
     console.log(event.target.value)
