@@ -3,6 +3,7 @@ import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
 import noteService from './services/persons'
+import Notification from './Components/Notification'
 
 
 
@@ -13,6 +14,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
   const [filter, setFilter] = useState('')
+  const [ message, setMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     noteService.
@@ -51,6 +54,23 @@ const App = () => {
           setPersons(persons.map(p => p.id !== changedPerson.id ? p : response))
           setNewName('')
           setNewNum('')
+          setMessage(
+            `Changed ${newPerson.name}'s number to ${newPerson.number}`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        }
+        )
+        .catch(error => {
+          setIsError(true)
+          setMessage(
+            `Information of ${newPerson.name} has already been removed from server`
+          )
+          setTimeout(() => {
+            setMessage(null)
+            setIsError(false)
+          }, 5000)
         }
         )
         return
@@ -84,6 +104,12 @@ const App = () => {
         setPersons(persons.concat(response))
         setNewName('')
         setNewNum('')
+        setMessage(
+          `Added ${newPerson.name}`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
   }
 
@@ -94,6 +120,17 @@ const App = () => {
         console.log(response, 'delete')
         setPersons(persons.filter(p => p.id !== person.id))
       })
+      .catch(error => {
+        setIsError(true)
+        setMessage(
+          `Information of ${person.name} has already been removed from server`
+        )
+        setTimeout(() => {
+          setMessage(null)
+          setIsError(false)
+        }, 5000)
+      }
+      )
     }
   }
 
@@ -115,6 +152,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} isError={isError}/>
       <Filter value={filter} onChange={handleFilterChange}/>
       <h2>
         add a new
