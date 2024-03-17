@@ -1,10 +1,42 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
+const api_key = "2240a3d4d7085c616f20ed6f2953b960"
 
+// const api_key = import.meta.env.VITE_SOME_KEY
 
-const Country = ({name, capital, area, languages, flag}) => {
+// variable api_key now has the value set in startup
+
+const Country = ({name, capital, area, languages, flag, latlng}) => {
     console.log('langs:', languages)
     console.log('langs values:', Object.values(languages))
+    const [icon, setIcon] = useState('')
+    const [windSpeed, setWindSpeed] = useState('')
+    const [temp, setTemp] = useState('')
+
+    const lat = latlng[0]
+    const lng = latlng[1]
+
+    console.log('api key',api_key)
+
+    axios
+    .get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${api_key}&units=metric`)
+    .then(response => {
+      console.log('report', response.data)
+      console.log('wind', response.data.wind.speed)
+      console.log('icon', response.data.weather[0].icon)
+    //     setReport(response)
+        setWindSpeed(response.data.wind.speed)
+        setTemp(response.data.main.temp)
+        setIcon(`https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`)
+        
+
+
+    })
+
+    // const windSpeed = report.current.wind_speed
+    // const temp = report.current.temp
+
+
     return (
         <div>
             <h1>{name}</h1>
@@ -20,6 +52,12 @@ const Country = ({name, capital, area, languages, flag}) => {
 </ul>
 
             <img src={flag}></img>
+            <h3>
+                Weather in {capital}
+            </h3>
+            <p>temperature {temp} Celcius</p>
+            <img src={icon} />
+            <p>wind {windSpeed} m/s</p>
         </div>
     )
 }
@@ -55,6 +93,7 @@ const Result = ({data, input}) => {
                 <Country key={country.name} name={country.name.common} 
                 capital={country.capital[0]} area={country.area} 
                 languages={country.languages} flag={country.flags.png}
+                latlng={country.capitalInfo.latlng}
                 /> 
             </div>
         )
@@ -95,6 +134,7 @@ const Result = ({data, input}) => {
                 <Country key={cty.name} name={cty.name.common} 
                 capital={cty.capital[0]} area={cty.area} 
                 languages={cty.languages} flag={cty.flags.png}
+                latlng={cty.capitalInfo.latlng}
                 /> 
             )}
             </div>
