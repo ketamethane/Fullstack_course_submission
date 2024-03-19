@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
-const api_key = "2240a3d4d7085c616f20ed6f2953b960"
+// const api_key = "2240a3d4d7085c616f20ed6f2953b960"
 
-// const api_key = import.meta.env.VITE_SOME_KEY
+const api_key = import.meta.env.VITE_SOME_KEY
 
 // variable api_key now has the value set in startup
 
