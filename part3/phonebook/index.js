@@ -1,12 +1,25 @@
 const express = require('express')
 const app = express()
-
-
-
 const morgan = require('morgan')
-app.use(morgan)
+
 // middleware!
 app.use(express.json())
+
+// Define a custom token for the request body
+morgan.token('body', function (req) {
+  return JSON.stringify(req.body);
+ });
+ 
+ // Use the custom token in the Morgan format string
+ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+ 
+
+
+
+
+morgan.token('type', function (req, res) { return req.body})
+
+
 
 let persons = [
     { 
