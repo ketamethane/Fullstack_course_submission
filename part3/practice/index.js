@@ -1,5 +1,5 @@
 const express = require('express')
-const cors = require('cors')
+// const cors = require('cors')
 const app = express()
 
 app.use(express.json())
@@ -14,7 +14,7 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
-app.use(cors())
+// app.use(cors())
 
 // const unknownEndpoint = (request, response) => {
 //   response.status(404).send({ error: 'unknown endpoint' })
