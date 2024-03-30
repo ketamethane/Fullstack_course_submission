@@ -38,3 +38,6 @@ content-type: application/json
 {
     "number": "999"
 }
+
+###
+GET http://localhost:3001/api/persons/888
