@@ -85,7 +85,7 @@ app.get('/api/persons/:id', (request, response) => {
       response.status(404).end()
     }
   })
-  .catch(error =>  next(error))
+  .catch(error => next(error))
     // console.log(error)
     // response.status(400).send({ error: 'malformatted id' })
   // })
@@ -94,8 +94,9 @@ app.get('/api/persons/:id', (request, response) => {
 // find a way to see if doc exists. if not, need to error handle that
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  var id = request.params.id; // Assuming you have the ID from the request parameters
-  Person.findByIdAndDelete(id)
+  // const id = request.params.id; // Assuming you have the ID from the request parameters
+  // console.log('backend delete id:', id)
+  Person.findByIdAndDelete(request.params.id)
   .then(result => {
     if (!result) {
       // If result is null, it means the document was not found
@@ -140,7 +141,20 @@ app.post('/api/persons/', (request, response, next) => {
     })
  });
 
+ app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
 
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
 
 
 const errorHandler = (error, request, response, next) => {

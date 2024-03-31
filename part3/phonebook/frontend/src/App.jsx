@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Persons from './Components/Persons'
-import noteService from './services/persons'
+import personService from './services/persons'
 import Notification from './Components/Notification'
 
 
@@ -18,7 +18,7 @@ const App = () => {
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
-    noteService.
+    personService.
       getAll().
       then(initialPersons => {
           console.log('got all')
@@ -28,6 +28,8 @@ const App = () => {
 
   // console.log('render', persons.length, 'persons')
 
+  // adding person works
+
   const addPerson = (event) => {
     event.preventDefault()
     console.log('Add Person', event.target)
@@ -35,9 +37,9 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNum,
-      id: (persons.length + 1).toString()
+      // id: (persons.length + 1).toString()
     }
-    console.log('new person id after', newPerson.id)
+    // console.log('new person id after', newPerson.id)
 
     const isPersonAlreadyAdded = persons.some(person => person.name === newPerson.name)
 
@@ -48,7 +50,8 @@ const App = () => {
         const addedPerson = persons.find(person => person.name === newPerson.name)
         const changedPerson = { ...addedPerson, number: newNum}
         console.log('changed person:', changedPerson)
-        noteService.update(changedPerson.id, changedPerson)
+        console.log('changed person id: ', changedPerson.id)
+        personService.update(changedPerson.id, changedPerson)
         .then(response => {
           console.log('added person:',response)
           setPersons(persons.map(p => p.id !== changedPerson.id ? p : response))
@@ -97,7 +100,7 @@ const App = () => {
 
     // const newPersons = persons.concat(newPerson)
 
-    noteService.create(newPerson)
+    personService.create(newPerson)
       .then(response => {
         console.log(response, 'response')
         console.log('added new person')
@@ -114,8 +117,11 @@ const App = () => {
   }
 
   const deletePerson = (person) => {
+    console.log('person in del', person)
+    console.log('person id:', person.id)
     if (window.confirm(`Delete ${person.name} ?`)) {
-    noteService.deletePerson(person.id)
+      console.log('person id:', person.id)
+    personService.deletePerson(person.id)
       .then(response => {
         console.log(response, 'delete')
         setPersons(persons.filter(p => p.id !== person.id))
