@@ -66,6 +66,7 @@ const App = () => {
         }
         )
         .catch(error => {
+          console.log('error:', error)
           setIsError(true)
           setMessage(
             `Information of ${newPerson.name} has already been removed from server`
@@ -84,10 +85,10 @@ const App = () => {
       // return
     }
 
-    if (newNum === '') {
-      alert(`Please enter a number`)
-      return
-    }
+    // if (newNum === '') {
+    //   alert(`Please enter a number`)
+    //   return
+    // }
 
     const isNumberAlreadyAdded = persons.some(person => person.number === newPerson.number)
 
@@ -114,6 +115,17 @@ const App = () => {
           setMessage(null)
         }, 5000)
       })
+      .catch(error => {
+        setIsError(true)
+          setMessage(
+            error.response.data.error
+          )
+          setTimeout(() => {
+            setIsError(false)
+            setMessage(null)
+          }, 5000)
+        console.log(error.response.data.error)
+      })
   }
 
   const deletePerson = (person) => {
@@ -127,6 +139,7 @@ const App = () => {
         setPersons(persons.filter(p => p.id !== person.id))
       })
       .catch(error => {
+        console.log('error:', error)
         setIsError(true)
         setMessage(
           `Information of ${person.name} has already been removed from server`
