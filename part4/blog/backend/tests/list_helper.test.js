@@ -97,6 +97,24 @@ describe('Helper functions', () => {
 
     const result = listHelper.favoriteBlog(listWithThreeBlogs)
     console.log('most number of likes:', result)
-    assert.strictEqual(result.likes, 25)
+    assert.deepStrictEqual(result.likes, 25)
+  })
+
+  test('author with most blogs', () => {
+    const result = listHelper.mostBlogs(listWithThreeBlogs)
+    console.log('most blogs:', result)
+    assert.deepStrictEqual(result,
+      { author: 'Edsger W. Dijkstra',
+        blogs: 2
+      })
+  })
+
+  test('author with most likes', () => {
+    const result = listHelper.mostLikes(listWithThreeBlogs)
+    console.log('most likes:', result)
+    assert.deepStrictEqual(result,
+      { author: 'Edsger W. Dijkstra',
+        likes: 30
+      })
   })
 })
