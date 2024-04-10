@@ -65,3 +65,38 @@ describe('total likes', () => {
     assert.strictEqual(result, 40)
   })
 })
+
+describe('Helper functions', () => {
+  const listWithThreeBlogs = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 5,
+      __v: 0
+    },
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'That is not Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 25,
+      __v: 0
+    },
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+      likes: 25,
+      __v: 0
+    },
+  ]
+  test('top blog with most likes', () => {
+
+    const result = listHelper.favoriteBlog(listWithThreeBlogs)
+    console.log('most number of likes:', result)
+    assert.strictEqual(result.likes, 25)
+  })
+})
