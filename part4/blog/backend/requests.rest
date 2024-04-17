@@ -19,6 +19,7 @@ content-type: application/json
 ###
 POST http://localhost:3001/api/blogs/ HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciiiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2MWZkNWRhNzQ0M2Y3NmE1NjI3MDRlOSIsImlhdCI6MTcxMzM2NjgxNn0.Wy0m1KVhRH-L9DBSBSuDXoC8KrTALBjYracLUCxw4M8
 
 {
     "title": "Sora",
@@ -48,6 +49,63 @@ content-type: application/json
     "password": "salainen"
 }
 
+###
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+###
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": ""
+}
+
+###
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "ha",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+###
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "pa"
+}
+
+###
+POST http://localhost:3001/api/login/
+content-type: application/json
+
+{
+    "username": "root",
+    "password": "salainen"
+}
+
+###
+POST http://localhost:3001/api/login/
+content-type: application/json
+
+{
+    "username": "groot",
+    "password": "salainen"
+}
 
 ###
 GET http://localhost:3001/api/persons/660904a76346a9ae100f7458

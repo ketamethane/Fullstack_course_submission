@@ -1,5 +1,6 @@
 const { test, after, beforeEach, describe } = require('node:test')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const mongoose = require('mongoose')
 const helper = require('./test_helper')
 const assert = require('node:assert')
@@ -20,10 +21,21 @@ const api = supertest(app)
 // })
 
 
-describe('when there is initially some notes saved', () => {
+describe('when there is initially some blogs saved', () => {
+  let testUserId
+
   beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)
+
+    // // Create a test user
+    // const testUser = new User({
+    //   username: 'testuser',
+    //   name: 'Test User',
+    //   // Add other necessary fields
+    // })
+    // const savedUser = await testUser.save()
+    // testUserId = savedUser._id // Save the user ID for use in tests
   })
 
   test('blogs are returned as json', async () => {
@@ -64,13 +76,24 @@ describe('when there is initially some notes saved', () => {
 
 
 
-    test('a valid blog can be added ', async () => {
+    test.only('a valid blog can be added ', async () => {
+
+      const testUser = new User({
+        username: 'testuser',
+        name: 'Test User',
+      // Add other necessary fields
+      })
+      const savedUser = await testUser.save()
+      testUserId = savedUser._id // Save the user ID for use in tests
+
       const newBlog = {
         title: 'Vysions',
         author: 'vylt',
         url: 'www.vylt.com',
-        likes: 1000
+        likes: 1000,
+        userId: testUserId
       }
+
 
       await api
         .post('/api/blogs')
