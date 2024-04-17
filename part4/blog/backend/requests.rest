@@ -2,7 +2,7 @@ GET http://localhost:3001/api/persons
 
 ###
 
-DELETE http://localhost:3001/api/persons/660904a76346a9ae100f7458
+DELETE http://localhost:3001/api/blogs/661b80f918952f3699cbe635
 
 
 ###
@@ -28,4 +28,34 @@ content-type: application/json
 }
 
 ###
+POST http://localhost:3001/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Sora",
+    "author": "keta",
+    "url": "wwww.youtube.com",
+    "userId": "661fd5da7443f76a562704e9"
+}
+
+###
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+
+###
 GET http://localhost:3001/api/persons/660904a76346a9ae100f7458
+
+###
+PUT http://localhost:3001/api/blogs/661b809c547cc7885529d53c HTTP/1.1
+Content-Type: application/json
+
+{
+ "likes": 10
+}
