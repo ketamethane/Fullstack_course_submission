@@ -1,10 +1,9 @@
 GET http://localhost:3001/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTM4MzR9.Cj84YljkGOUaf4nyN0uGsgnB4TfAcGSXiGeBXMW2T28
 
 ###
 
-DELETE http://localhost:3001/api/blogs/6621362cc776ca2ae324632f
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTM4MzR9.Cj84YljkGOUaf4nyN0uGsgnB4TfAcGSXiGeBXMW2T28
+DELETE http://localhost:3001/api/blogs/661fe764331b82bf4a9c2e80
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2MWZkNWRhNzQ0M2Y3NmE1NjI3MDRlOSIsImlhdCI6MTcxMzQ1NjA5NH0.YHWprbSdhog9P5U8mJbpJup9g5ea5G03hZh_13ygYUg
 
 
 ###
@@ -21,13 +20,13 @@ content-type: application/json
 ###
 POST http://localhost:3001/api/blogs/ HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTM4MzR9.Cj84YljkGOUaf4nyN0uGsgnB4TfAcGSXiGeBXMW2T28
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2MWZkNWRhNzQ0M2Y3NmE1NjI3MDRlOSIsImlhdCI6MTcxMzQ1NjA5NH0.YHWprbSdhog9P5U8mJbpJup9g5ea5G03hZh_13ygYUg
 
 {
-    "title": "ano hi",
-    "author": "meth",
+    "title": "sora ni utaeba",
+    "author": "amazarashi",
     "url": "wwww.youtube.com",
-    "likes": 3
+    "likes": 10000000
 }
 
 ###
