@@ -1,8 +1,8 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
+// const User = require('../models/user')
 const jwt = require('jsonwebtoken')
-const { tokenExtractor } = require('../utils/middleware')
+const { tokenExtractor, userExtractor } = require('../utils/middleware')
 
 
 // const getTokenFrom = request => {
@@ -13,22 +13,22 @@ const { tokenExtractor } = require('../utils/middleware')
 //   return null
 // }
 
-blogsRouter.get('/', tokenExtractor, async (request, response) => {
+blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
     .find({}).populate('user', { username: 1, name: 1 })
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', tokenExtractor, userExtractor, async (request, response) => {
 
   const body = request.body
-  // request = tokenExtractor(request, response)
+  const user = request.user
 
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
-  const user = await User.findById(decodedToken.id)
+  // const user = await User.findById(decodedToken.id)
 
   // const user = await User.findById(body.userId)
 
@@ -53,8 +53,31 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
+blogsRouter.delete('/:id', tokenExtractor, userExtractor, async (request, response) => {
+  // await Blog.findByIdAndDelete(request.params.id)
+  // response.status(204).end()
+  const blogId = request.params.id
+  // const user = request.user
+
+  // Extract the user ID from the token
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const userId = decodedToken.id
+
+  // Fetch the blog from the database
+  const blog = await Blog.findById(blogId)
+
+  // Check if the blog exists
+  if (!blog) {
+    return response.status(404).json({ error: 'Blog not found' })
+  }
+
+  // Compare the user ID from the token with the user ID associated with the blog
+  if (blog.user.toString() !== userId.toString()) {
+    return response.status(403).json({ error: 'You are not authorized to delete this blog' })
+  }
+
+  // If the IDs match, proceed with the deletion
+  await Blog.findByIdAndDelete(blogId)
   response.status(204).end()
 })
 

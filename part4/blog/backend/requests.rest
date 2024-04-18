@@ -1,8 +1,10 @@
-GET http://localhost:3001/api/persons
+GET http://localhost:3001/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTM4MzR9.Cj84YljkGOUaf4nyN0uGsgnB4TfAcGSXiGeBXMW2T28
 
 ###
 
-DELETE http://localhost:3001/api/blogs/661b80f918952f3699cbe635
+DELETE http://localhost:3001/api/blogs/6621362cc776ca2ae324632f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTM4MzR9.Cj84YljkGOUaf4nyN0uGsgnB4TfAcGSXiGeBXMW2T28
 
 
 ###
@@ -19,7 +21,7 @@ content-type: application/json
 ###
 POST http://localhost:3001/api/blogs/ HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTI0Njl9.dNQjpePwfO-KPO84flMXVcgrQPy0sOZN93MZM3J1c_Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxvIiwiaWQiOiI2NjIxMzRhM2Q2MThhOWEzMTYwN2Q0MzUiLCJpYXQiOjE3MTM0NTM4MzR9.Cj84YljkGOUaf4nyN0uGsgnB4TfAcGSXiGeBXMW2T28
 
 {
     "title": "ano hi",
