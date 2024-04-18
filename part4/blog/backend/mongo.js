@@ -5,11 +5,7 @@ if (process.argv.length<2) {
   process.exit(1)
 }
 
-// node mongo.js <password>
-//  mongodb+srv://cheonghsien:<password>@fscluster.tbatcdr.mongodb.net/phonebook?retryWrites=true&w=majority&appName=FScluster
-// const password = process.env.password
-
-const url = 'mongodb+srv://cheonghsien:MHEKYzH0o8h8xsJT@fscluster.tbatcdr.mongodb.net/testBlog?retryWrites=true&w=majority&appName=FScluster'
+// refer to .env file for code to manually connect to mongodb to add blog
 
 mongoose.set('strictQuery',false)
 
