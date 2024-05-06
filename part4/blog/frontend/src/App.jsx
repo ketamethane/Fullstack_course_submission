@@ -22,6 +22,15 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   // create add blog feature. login already done
   
   const handleLogin = async (event) => {
@@ -31,6 +40,10 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
 
       blogService.setToken(user.token)
       setUser(user)
@@ -80,6 +93,18 @@ const App = () => {
   //   //   <button type="submit">save</button>
   //   // </form>  
   // )
+
+  const logout = function() {
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+    setUsername('')
+    setPassword('')
+    setNewTitle('')
+    setNewAuthor('')
+    setNewUrl('')
+    setErrorMessage(null)
+    setIsError(false)
+  }
 
 
   const addBlog = (event) => {
@@ -204,6 +229,7 @@ const App = () => {
       loginForm() :
       <div>
         <p>{user.name} logged-in</p>
+        <button onClick={logout}>Logout</button>
         <BlogForm onSubmit={addBlog} name={newTitle} nameHandle={handleTitleChange}
       num={newAuthor} numHandle={handleAuthorChange} url={newUrl} urlHandle={handleUrlChange} />
       </div>
