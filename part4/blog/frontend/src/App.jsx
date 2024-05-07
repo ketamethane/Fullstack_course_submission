@@ -13,6 +13,8 @@ const App = () => {
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [notifTitle, setNotifTitle] = useState('')
+  const [notifAuthor, setNotifAuthor] = useState('')
   const [isError, setIsError] = useState(false)
   const [user, setUser] = useState(null)
 
@@ -54,6 +56,7 @@ const App = () => {
       setErrorMessage('Wrong credentials')
       setIsError(true)
       setTimeout(() => {
+        setIsError(false)
         setErrorMessage(null)
       }, 5000)
     }
@@ -109,11 +112,11 @@ const App = () => {
 
   const addBlog = (event) => {
     event.preventDefault()
-    console.log('Add Person', event.target)
+    console.log('Add Blog', event.target)
 
     const newBlog = {
       title: newTitle,
-      number: newTitle,
+      author: newAuthor,
       url: newUrl
     }
     // console.log('new person id after', newPerson.id)
@@ -162,10 +165,20 @@ const App = () => {
     //   // return
     // }
 
-    // if (newNum === '') {
-    //   alert(`Please enter a number`)
-    //   return
-    // }
+    if (newTitle === '') {
+      alert(`Please enter a title`)
+      return
+    }
+
+    if (newAuthor === '') {
+      alert(`Please enter an author`)
+      return
+    }
+
+    if (newUrl === '') {
+      alert(`Please enter a url`)
+      return
+    }
 
     // const isNumberAlreadyAdded = persons.some(person => person.number === newPerson.number)
 
@@ -181,14 +194,19 @@ const App = () => {
     blogService.create(newBlog)
       .then(response => {
         console.log(response, 'response')
-        console.log('added new person')
+        console.log('added new blog')
         setBlogs(blogs.concat(response))
         setNewTitle('')
         setNewAuthor('')
+        setNewUrl('')
         setErrorMessage(
           `Added ${newBlog.name}`
         )
+        setNotifTitle(newTitle)
+        setNotifAuthor(newAuthor)
         setTimeout(() => {
+          setNotifTitle('')
+          setNotifAuthor('')
           setErrorMessage(null)
         }, 5000)
       })
@@ -223,15 +241,15 @@ const App = () => {
   return (
     <div>
       <h1>log in to application</h1>
-      <Notification message={errorMessage} isError={isError}/>
+      <Notification message={errorMessage} title={notifTitle} author={notifAuthor} isError={isError}/>
 
       {user === null ?
       loginForm() :
       <div>
         <p>{user.name} logged-in</p>
         <button onClick={logout}>Logout</button>
-        <BlogForm onSubmit={addBlog} name={newTitle} nameHandle={handleTitleChange}
-      num={newAuthor} numHandle={handleAuthorChange} url={newUrl} urlHandle={handleUrlChange} />
+        <BlogForm onSubmit={addBlog} title={newTitle} titleHandle={handleTitleChange}
+      author={newAuthor} authorHandle={handleAuthorChange} url={newUrl} urlHandle={handleUrlChange} />
       </div>
     }
 

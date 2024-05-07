@@ -1,4 +1,4 @@
-const Notification = ({ message, isError }) => {
+const Notification = ({ message, title, author, isError }) => {
 
     if (isError === true) {
         const errorMsg = {
@@ -25,7 +25,7 @@ const Notification = ({ message, isError }) => {
   
     return (
       <div style={addMsg}>
-        {message}
+        A new blog {title} by {author} is added!
       </div>
     )
   }
