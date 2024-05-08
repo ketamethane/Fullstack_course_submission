@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -11,15 +11,13 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [notifTitle, setNotifTitle] = useState('')
   const [notifAuthor, setNotifAuthor] = useState('')
   const [isError, setIsError] = useState(false)
   const [user, setUser] = useState(null)
   // const [loginVisible, setLoginVisible] = useState(false)
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -35,8 +33,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  // create add blog feature. login already done
   
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -83,123 +79,21 @@ const App = () => {
     )
   }
 
-  // const loginForm = () => (
-  //   <form onSubmit={handleLogin}>
-  //     <div>
-  //       username
-  //         <input
-  //         type="text"
-  //         value={username}
-  //         name="Username"
-  //         onChange={({ target }) => setUsername(target.value)}
-  //       />
-  //     </div>
-  //     <div>
-  //       password
-  //         <input
-  //         type="password"
-  //         value={password}
-  //         name="Password"
-  //         onChange={({ target }) => setPassword(target.value)}
-  //       />
-  //     </div>
-  //     <button type="submit">login</button>
-  //   </form>      
-  // )
-
-  // const noteForm = () => (
-  //   <div></div>
-  //   // <form onSubmit={addNote}>
-  //   //   <input
-  //   //     value={newNote}
-  //   //     onChange={handleNoteChange}
-  //   //   />
-  //   //   <button type="submit">save</button>
-  //   // </form>  
-  // )
-
   const logout = function() {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
     setUsername('')
     setPassword('')
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
+    // setNewTitle('')
+    // setNewAuthor('')
+    // setNewUrl('')
     setErrorMessage(null)
     setIsError(false)
   }
 
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    console.log('Add Blog', event.target)
-
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-    // console.log('new person id after', newPerson.id)
-
-    // const isPersonAlreadyAdded = persons.some(person => person.name === newPerson.name)
-
-    // if (isPersonAlreadyAdded) {
-    //   if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
-        
-    //     // make a shallow copy of the person to update with that person's id, then update accordingly
-    //     const addedPerson = persons.find(person => person.name === newPerson.name)
-    //     const changedPerson = { ...addedPerson, number: newNum}
-    //     console.log('changed person:', changedPerson)
-    //     console.log('changed person id: ', changedPerson.id)
-    //     personService.update(changedPerson.id, changedPerson)
-    //     .then(response => {
-    //       console.log('added person:',response)
-    //       setPersons(persons.map(p => p.id !== changedPerson.id ? p : response))
-    //       setNewName('')
-    //       setNewNum('')
-    //       setMessage(
-    //         `Changed ${newPerson.name}'s number to ${newPerson.number}`
-    //       )
-    //       setTimeout(() => {
-    //         setMessage(null)
-    //       }, 5000)
-    //     }
-    //     )
-    //     .catch(error => {
-    //       console.log('error:', error)
-    //       setIsError(true)
-    //       setMessage(
-    //         `Information of ${newPerson.name} has already been removed from server`
-    //       )
-    //       setTimeout(() => {
-    //         setMessage(null)
-    //         setIsError(false)
-    //       }, 5000)
-    //     }
-    //     )
-    //     return
-
-    //   }
-    //   // console.log(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)
-    //   // alert(`${newPerson.name} is already added to phonebook`)
-    //   // return
-    // }
-
-    if (newTitle === '') {
-      alert(`Please enter a title`)
-      return
-    }
-
-    if (newAuthor === '') {
-      alert(`Please enter an author`)
-      return
-    }
-
-    if (newUrl === '') {
-      alert(`Please enter a url`)
-      return
-    }
+  const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
 
     // const isNumberAlreadyAdded = persons.some(person => person.number === newPerson.number)
 
@@ -212,19 +106,19 @@ const App = () => {
 
     // const newPersons = persons.concat(newPerson)
 
-    blogService.create(newBlog)
+    blogService.create(blogObject)
       .then(response => {
         console.log(response, 'response')
         console.log('added new blog')
         setBlogs(blogs.concat(response))
-        setNewTitle('')
-        setNewAuthor('')
-        setNewUrl('')
+        // setNewTitle('')
+        // setNewAuthor('')
+        // setNewUrl('')
         setErrorMessage(
-          `Added ${newBlog.name}`
+          `Added ${blogObject.name}`
         )
-        setNotifTitle(newTitle)
-        setNotifAuthor(newAuthor)
+        setNotifTitle(blogObject.title)
+        setNotifAuthor(blogObject.author)
         setTimeout(() => {
           setNotifTitle('')
           setNotifAuthor('')
@@ -245,20 +139,20 @@ const App = () => {
   }
       
 
-  const handleTitleChange = (event) => {
-    console.log(event.target.value)
-    setNewTitle(event.target.value)
-  }
-  const handleAuthorChange = (event) => {
-    console.log(event.target.value)
-    setNewAuthor(event.target.value)
-  }
+  // const handleTitleChange = (event) => {
+  //   console.log(event.target.value)
+  //   setNewTitle(event.target.value)
+  // }
+  // const handleAuthorChange = (event) => {
+  //   console.log(event.target.value)
+  //   setNewAuthor(event.target.value)
+  // }
     
-  const handleUrlChange = (event) => {
-    console.log(event.target.value)
-    setNewUrl(event.target.value)
-  }
-
+  // const handleUrlChange = (event) => {
+  //   console.log(event.target.value)
+  //   setNewUrl(event.target.value)
+  // }
+  
   return (
     <div>
       <h1>log in to application</h1>
@@ -270,9 +164,8 @@ const App = () => {
         <p>{user.name} logged-in
         <button onClick={logout}>Logout</button>
         </p>
-        <Togglable buttonLabel="new note">
-          <BlogForm onSubmit={addBlog} title={newTitle} titleHandle={handleTitleChange}
-        author={newAuthor} authorHandle={handleAuthorChange} url={newUrl} urlHandle={handleUrlChange} />
+        <Togglable buttonLabel="new blog" ref={blogFormRef}>
+          <BlogForm createBlog={addBlog} />
         </Togglable>
       </div>
     }
