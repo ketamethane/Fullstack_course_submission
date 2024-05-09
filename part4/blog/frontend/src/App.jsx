@@ -20,9 +20,10 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(sortedBlogs)
+    })  
   }, [])
 
   useEffect(() => {
@@ -174,6 +175,11 @@ const App = () => {
         console.log(error.response.data.error);
       });
   };
+
+
+  // const sortBlogs = () => {
+  //   setBlogs(blogs.sort())
+  // }
       
 
   // const handleTitleChange = (event) => {
@@ -208,6 +214,7 @@ const App = () => {
     }
 
       <h2>blogs</h2>
+      {/* <button onClick={sortBlogs}>Sort Blogs!</button> */}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} handleLike={addLike}/>
       )}
