@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react"
-import blogService from '../services/blogs'
 // import TogglableDetails from "./TogglableDetails"
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, currentUser, deleteHandle }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
   const [user, setUser] = useState(blog.user.name)
   
-  // useEffect(() => {
-  //   blogService.getAll().then(blogs =>
-  //     setBlogs( blogs )
-  //   )  
-  // }, [])
+  useEffect(() => {
+      setUser(blog.user.name)  
+  }, [])
 
   const hideWhenVisible = { 
     display: detailsVisible ? 'none' : '',
@@ -35,6 +31,12 @@ const Blog = ({ blog, handleLike }) => {
     handleLike(blog.id)
     setUser(blog.user.name)
   }
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this blog post?")) {
+      deleteHandle(blog.id); // Call the delete function
+    }
+  }
     
 
 
@@ -54,9 +56,11 @@ const Blog = ({ blog, handleLike }) => {
           <div>{blog.url}</div>
           <div>
             likes {blog.likes} <button onClick={() => addLike()}>like</button>
-
-          </div>
+            </div>
           <div>{user}</div>
+          {currentUser && currentUser.username === blog.user.username && (
+        <button onClick={handleDelete}>Delete</button>
+      )}
         </div>
       </div>
     // <div style={blogStyle}>
