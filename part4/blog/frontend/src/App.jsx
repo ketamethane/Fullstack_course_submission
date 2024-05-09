@@ -137,6 +137,43 @@ const App = () => {
         console.log(error.response.data.error)
       })
   }
+
+  // parameter: adding in new object with one more like
+  const addLike = (blogId) => {
+    const blogToUpdate = blogs.find(blog => blog.id === blogId);
+    if (!blogToUpdate) return;
+  
+    const updatedBlog = {
+     ...blogToUpdate,
+      likes: blogToUpdate.likes + 1,
+    };
+
+    console.log('updated blog:', updatedBlog)
+  
+    blogService.update(blogId, updatedBlog)
+     .then(response => {
+        console.log(response, 'response');
+        console.log('updated blog with one more like');
+        setBlogs(blogs.map(blog => blog.id === blogId? response : blog));
+        setErrorMessage(`Added ${blogToUpdate.title}`);
+        setNotifTitle(blogToUpdate.title);
+        setNotifAuthor(blogToUpdate.author);
+        setTimeout(() => {
+          setNotifTitle('');
+          setNotifAuthor('');
+          setErrorMessage(null);
+        }, 5000);
+      })
+     .catch(error => {
+        setIsError(true);
+        setErrorMessage(error.response.data.error);
+        setTimeout(() => {
+          setIsError(false);
+          setErrorMessage(null);
+        }, 5000);
+        console.log(error.response.data.error);
+      });
+  };
       
 
   // const handleTitleChange = (event) => {
@@ -172,7 +209,7 @@ const App = () => {
 
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={addLike}/>
       )}
     </div>
   )
