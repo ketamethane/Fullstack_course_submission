@@ -9,7 +9,7 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [notifTitle, setNotifTitle] = useState('')
@@ -23,7 +23,7 @@ const App = () => {
     blogService.getAll().then(blogs => {
       const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
       setBlogs(sortedBlogs)
-    })  
+    })
   }, [])
 
   useEffect(() => {
@@ -34,10 +34,10 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
+
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -130,12 +130,12 @@ const App = () => {
       .catch(error => {
         setIsError(true)
         setErrorMessage(
-            error.response.data.error
-          )
-          setTimeout(() => {
-            setIsError(false)
-            setErrorMessage(null)
-          }, 5000)
+          error.response.data.error
+        )
+        setTimeout(() => {
+          setIsError(false)
+          setErrorMessage(null)
+        }, 5000)
         console.log(error.response.data.error)
       })
   }
@@ -144,16 +144,16 @@ const App = () => {
   const addLike = (blogId) => {
     const blogToUpdate = blogs.find(blog => blog.id === blogId)
     if (!blogToUpdate) return
-  
+
     const updatedBlog = {
-     ...blogToUpdate,
+      ...blogToUpdate,
       likes: blogToUpdate.likes + 1,
     }
 
     console.log('updated blog:', updatedBlog)
-  
+
     blogService.update(blogId, updatedBlog)
-     .then(response => {
+      .then(response => {
         console.log(response, 'response')
         console.log('updated blog with one more like')
         setBlogs(blogs.map(blog => blog.id === blogId? response : blog))
@@ -166,7 +166,7 @@ const App = () => {
           setErrorMessage(null)
         }, 5000)
       })
-     .catch(error => {
+      .catch(error => {
         setIsError(true)
         setErrorMessage(error.response.data.error)
         setTimeout(() => {
@@ -179,42 +179,42 @@ const App = () => {
 
   const deleteBlog = (id) => {
     blogService.deleteBlog(id)
-    .then(response => {
-      console.log(response, 'response')
-      console.log('deleted Blog')
-      setBlogs(blogs.filter(blog => blog.id!== id))
-    })
-   .catch(error => {
-      setIsError(true)
-      setErrorMessage(error.response.data.error)
-      setTimeout(() => {
-        setIsError(false)
-        setErrorMessage(null)
-      }, 5000)
-      console.log(error.response.data.error)
-    })
+      .then(response => {
+        console.log(response, 'response')
+        console.log('deleted Blog')
+        setBlogs(blogs.filter(blog => blog.id!== id))
+      })
+      .catch(error => {
+        setIsError(true)
+        setErrorMessage(error.response.data.error)
+        setTimeout(() => {
+          setIsError(false)
+          setErrorMessage(null)
+        }, 5000)
+        console.log(error.response.data.error)
+      })
     //   setBlogs(blogs.filter(blog => blog.id!== id)); // Update the local state
     // } catch (error) {
     //   console.error("Failed to delete blog:", error);
     // }
   }
-  
+
   return (
     <div>
       <h1>log in to application</h1>
       <Notification message={errorMessage} title={notifTitle} author={notifAuthor} isError={isError}/>
 
       {user === null ?
-      loginForm() :
-      <div>
-        <p>{user.name} logged-in
-        <button onClick={logout}>Logout</button>
-        </p>
-        <Togglable buttonLabel="new blog" ref={blogFormRef}>
-          <BlogForm createBlog={addBlog} />
-        </Togglable>
-      </div>
-    }
+        loginForm() :
+        <div>
+          <p>{user.name} logged-in
+            <button onClick={logout}>Logout</button>
+          </p>
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+            <BlogForm createBlog={addBlog} />
+          </Togglable>
+        </div>
+      }
 
       <h2>blogs</h2>
       {/* <button onClick={sortBlogs}>Sort Blogs!</button> */}

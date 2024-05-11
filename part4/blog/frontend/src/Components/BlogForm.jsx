@@ -1,25 +1,25 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const BlogForm = ({ createBlog }) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-  
+
   const addBlog = (event) => {
     event.preventDefault()
 
     if (newTitle === '') {
-      alert(`Please enter a title`)
+      alert('Please enter a title')
       return
     }
 
     if (newAuthor === '') {
-      alert(`Please enter an author`)
+      alert('Please enter an author')
       return
     }
 
     if (newUrl === '') {
-      alert(`Please enter a url`)
+      alert('Please enter a url')
       return
     }
 
@@ -35,20 +35,20 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-      <form onSubmit={addBlog}>
+    <form onSubmit={addBlog}>
       <div>
         title: <input value={newTitle}
-        onChange={event => setNewTitle(event.target.value)}
+          onChange={event => setNewTitle(event.target.value)}
         />
       </div>
       <div>
       author: <input value={newAuthor}
-        onChange={event => setNewAuthor(event.target.value)}
+          onChange={event => setNewAuthor(event.target.value)}
         />
       </div>
       <div>
         url: <input value={newUrl}
-        onChange={event => setNewUrl(event.target.value)}
+          onChange={event => setNewUrl(event.target.value)}
         />
       </div>
       <div>
