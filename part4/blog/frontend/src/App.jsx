@@ -97,17 +97,6 @@ const App = () => {
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
 
-    // const isNumberAlreadyAdded = persons.some(person => person.number === newPerson.number)
-
-
-    // if (isNumberAlreadyAdded) {
-    //   console.log(`${newPerson.number} is already added to phonebook`)
-    //   alert(`${newPerson.number} is already added to phonebook`)
-    //   return
-    // }
-
-    // const newPersons = persons.concat(newPerson)
-
     blogService.create(blogObject)
       .then(response => {
         console.log(response, 'response')
