@@ -39,16 +39,22 @@ const BlogForm = ({ createBlog }) => {
       <div>
         title: <input value={newTitle}
           onChange={event => setNewTitle(event.target.value)}
+          placeholder='Write your title here'
+          id='title-input'
         />
       </div>
       <div>
       author: <input value={newAuthor}
           onChange={event => setNewAuthor(event.target.value)}
+          placeholder='Write your author name here'
+          id='author-input'
         />
       </div>
       <div>
         url: <input value={newUrl}
           onChange={event => setNewUrl(event.target.value)}
+          placeholder='Write your blog url here'
+          id='url-input'
         />
       </div>
       <div>
@@ -59,26 +65,3 @@ const BlogForm = ({ createBlog }) => {
 }
 
 export default BlogForm
-
-
-// const PersonForm = ({onSubmit, title, titleHandle, author, authorHandle}) => {
-//     return (
-//         <form onSubmit={onSubmit}>
-//         <div>
-//           title: <input value={title}
-//           onChange={titleHandle}
-//           />
-//         </div>
-//         <div>
-//         authorber: <input value={author}
-//           onChange={authorHandle}
-//           />
-//         </div>
-//         <div>
-//           <button type="submit">add</button>
-//         </div>
-//       </form>
-//     )
-// }
-
-// export default PersonForm

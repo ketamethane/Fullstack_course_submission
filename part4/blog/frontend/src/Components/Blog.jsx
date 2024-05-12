@@ -17,22 +17,30 @@ const Blog = ({ blog, handleLike, currentUser, deleteHandle }) => {
   //     setUser(blog.user.name)
   // }, [])
 
-  const hideWhenVisible = {
-    display: detailsVisible ? 'none' : '',
+  const overallLayout = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
   }
-  const showWhenVisible = {
-    display: detailsVisible ? '' : 'none',
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
+
+  // const hideWhenVisible = {
+  //   display: detailsVisible ? 'none' : '',
+  //   paddingTop: 10,
+  //   paddingLeft: 2,
+  //   border: 'solid',
+  //   borderWidth: 1,
+  //   marginBottom: 5
+  // }
+  // const showWhenVisible = {
+  //   display: detailsVisible ? '' : 'none',
+  //   paddingTop: 10,
+  //   paddingLeft: 2,
+  //   border: 'solid',
+  //   borderWidth: 1,
+  //   marginBottom: 5
+  // }
 
   // how to extract the service component out when I need to immediately reflect it in FE?
   const addLike = () => {
@@ -46,19 +54,42 @@ const Blog = ({ blog, handleLike, currentUser, deleteHandle }) => {
     }
   }
 
-
+  const toggleDetails = () => {
+    setDetailsVisible(!detailsVisible)
+  }
 
 
   // use blogService.update() to give the like functionality
   // put to the Blog's id that is the endpoint
 
   return (
-    <div>
-      <div style={hideWhenVisible}>
+    <div style={overallLayout}>
+      {blog.title} {blog.author}
+      <button onClick={toggleDetails}>{detailsVisible? 'Hide' : 'Show'} Details</button>
+      {detailsVisible && (
+        <div className='blog-details'>
+          {/* <div style={showWhenVisible} data-testid="unique-blog-title-2"> */}
+          <div>{blog.url}</div>
+          <div>
+            likes {blog.likes} <button onClick={addLike}>like</button>
+          </div>
+          <div>{user}</div>
+          {currentUser && currentUser.username === blog.user.username && (
+            <button onClick={handleDelete}>Delete</button>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Blog
+
+/* <div style={hideWhenVisible} data-testid="unique-blog-title">
         {blog.title} {blog.author}
         <button onClick={() => setDetailsVisible(true)}>show</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} data-testid="unique-blog-title-2">
         {blog.title} {blog.author}
         <button onClick={() => setDetailsVisible(false)}>hide</button>
         <div>{blog.url}</div>
@@ -69,19 +100,15 @@ const Blog = ({ blog, handleLike, currentUser, deleteHandle }) => {
         {currentUser && currentUser.username === blog.user.username && (
           <button onClick={handleDelete}>Delete</button>
         )}
-      </div>
-    </div>
-    // <div style={blogStyle}>
-    //   <div>
-    //     <span>{blog.title}</span> <span>{blog.author}</span>
-    //     <TogglableDetails buttonLabel="view" ref={blogDetailsRef}>
-    // <div>{blog.url}</div>
-    // <div>likes {blog.likes}</div>
-    // <div>{blog.user.name}</div>
-    //     </TogglableDetails>
-    //   </div>
-    // </div>
-  )
-}
-
-export default Blog
+      </div> */
+// /* </div> */
+// // <div style={blogStyle}>
+// //   <div>
+// //     <span>{blog.title}</span> <span>{blog.author}</span>
+// //     <TogglableDetails buttonLabel="view" ref={blogDetailsRef}>
+// // <div>{blog.url}</div>
+// // <div>likes {blog.likes}</div>
+// // <div>{blog.user.name}</div>
+// //     </TogglableDetails>
+// //   </div>
+// // </div>
